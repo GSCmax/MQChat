@@ -13,15 +13,21 @@
     <hc:Watermark Mark="GSC🤣 " FontSize="15">
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" MinWidth="100" MaxWidth="300"/>
+                <ColumnDefinition Width="150" MinWidth="100" MaxWidth="300"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <!--左侧联系人列表-->
-            <Border Grid.Column="0" Height="30" VerticalAlignment="Top" CornerRadius="5" Background="{DynamicResource BorderBrush}">
-                
+            <Border Grid.Column="0" Height="30" VerticalAlignment="Top" CornerRadius="5" Background="{DynamicResource SuccessBrush}">
+                <TextBlock Foreground="{DynamicResource RegionBrush}" Text="{x:Static local:GlobalData.myName}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
-            <ListBox Grid.Column="0" Margin="0,40,0,0"/>
+            <ListBox Grid.Column="0" Margin="0,40,0,0" ItemsSource="{x:Static local:GlobalData.userCustoms}" SelectionChanged="ListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding CustomName}" ToolTip="{Binding UserID}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
             <Button Grid.Column="0" Width="40" Height="40" Margin="5"
                     VerticalAlignment="Bottom" HorizontalAlignment="Right"
                     Style="{StaticResource ButtonIcon}"
@@ -37,7 +43,15 @@
                     <RowDefinition Height="100" MinHeight="70" MaxHeight="300"/>
                 </Grid.RowDefinitions>
                 <!--顶部聊天列表-->
-                <ListBox Grid.Row="0"/>
+                <ListBox Grid.Row="0" Name="msgListBox">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding MsgContent}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <!--横向分割栏-->
                 <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <!--底部消息编辑区域-->
