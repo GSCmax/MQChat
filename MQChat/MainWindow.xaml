@@ -1,4 +1,4 @@
-﻿<Window x:Class="MQChat.MainWindow"
+﻿<hc:Window x:Class="MQChat.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,6 +10,87 @@
         Height="600" MinHeight="300"
         Width="800" MinWidth="400">
 
+    <hc:Window.DataContext>
+        <local:MainWindowViewModel/>
+    </hc:Window.DataContext>
+    
+    <hc:Window.NonClientAreaContent>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" Height="19" Width="200" CornerRadius="5" Margin="0,0,5,0" Background="{DynamicResource SecondaryRegionBrush}" ToolTip="软件版本与消息提示" IsHitTestVisible="False">
+                <TextBlock FontWeight="Bold" Text="{x:Static local:GlobalData.Version}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Border>
+            <!--<Border Grid.Column="1" Height="19" Width="100" CornerRadius="5" Margin="0,0,5,0" Background="{DynamicResource PrimaryBrush}" Visibility="{Binding InfoMsg, Converter={StaticResource S2VC}}">
+                <TextBlock FontWeight="Bold" Text="{Binding InfoMsg}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+            </Border>
+            <Border Grid.Column="1" Height="19" Width="100" CornerRadius="5" Margin="0,0,5,0" Background="{DynamicResource DangerBrush}" Visibility="{Binding ErrMsg, Converter={StaticResource S2VC}}">
+                <TextBlock FontWeight="Bold" Text="{Binding ErrMsg}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+            </Border>-->
+            <Button Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Width="45" BorderThickness="0"
+                    hc:BorderElement.CornerRadius="0" Foreground="{DynamicResource PrimaryTextBrush}" hc:IconElement.Geometry="{StaticResource GithubGeometry}"
+                    Style="{StaticResource ButtonIcon}" Command="{Binding showGithubClickCommand}" ToolTip="点击前往项目开源地址，欢迎加星😀"/>
+            <Button Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Width="45" BorderThickness="0"
+                    hc:BorderElement.CornerRadius="0" Foreground="{DynamicResource PrimaryTextBrush}" hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                    Style="{StaticResource ButtonIcon}" Command="{Binding showPopClickCommand}" ToolTip="设置" Name="settingBTN"/>
+            <Popup PlacementTarget="{Binding ElementName=settingBTN}" HorizontalOffset="0" VerticalOffset="0" IsOpen="{Binding ShowPop}" AllowsTransparency="True" StaysOpen="False">
+                <hc:TransitioningContentControl TransitionMode="Top2Bottom">
+                    <Border Background="{DynamicResource SecondaryRegionBrush}" CornerRadius="0,0,10,10" Margin="5,0,5,5" Effect="{StaticResource EffectShadow2}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="36"/>
+                                <!--<RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>-->
+                                <RowDefinition Height="2"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="使用暗色主题" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" Style="{StaticResource TextBlockDefault}" Margin="8,0"/>
+                            <ToggleButton HorizontalAlignment="Right" Grid.Column="1" Grid.Row="0" Style="{StaticResource ToggleButtonSwitch}" Margin="0,0,8,0"
+                                          IsChecked="{Binding Source={x:Static local:GlobalData.appConfig}, Path=UseDarkTheme}"
+                                          Command="{Binding skinToggleCommand}" CommandParameter="{Binding Source={x:Static local:GlobalData.appConfig}, Path=UseDarkTheme}"/>
+                            <TextBlock Text="你的昵称 ⤵" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="1" Style="{StaticResource TextBlockDefault}" Margin="8,0"/>
+                            <TextBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Text="{Binding Source={x:Static local:GlobalData.appConfig}, Path=SelfNickname}" Margin="5,3"/>
+                            <!--<TextBlock Text="启动时执行全局截图" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="1" Style="{StaticResource TextBlockDefault}" Margin="5,0,5,0"
+                                       ToolTip="若启用，软件启动时将执行一次全局截图"/>
+                            <ToggleButton HorizontalAlignment="Right" Grid.Column="1" Grid.Row="1" Style="{StaticResource ToggleButtonSwitch}" Margin="0,0,5,0"
+                                          IsChecked="{Binding Source={x:Static tools:GlobalDataHelper.appConfig}, Path=AutoFullScreenShotOnStart}"/>
+                            <TextBlock Text="二维码链接自动打开" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2" Style="{StaticResource TextBlockDefault}" Margin="5,0,5,0"
+                                       ToolTip="若启用，软件打开或扫描二维码图片后自动调用关联程序打开链接"/>
+                            <ToggleButton HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2" Style="{StaticResource ToggleButtonSwitch}" Margin="0,0,5,0"
+                                          IsChecked="{Binding Source={x:Static tools:GlobalDataHelper.appConfig}, Path=AutoOpenLink}"/>
+                            <TextBlock HorizontalAlignment="Left" Grid.Column="0" Grid.Row="3" Style="{StaticResource TextBlockDefault}" Margin="5,0,5,0"
+                                       ToolTip="若启用，软件关闭时将标记为“收藏”的历史排序至历史记录最前端">
+                                <Hyperlink Command="{Binding openHistoryFileCommand}">历史记录</Hyperlink><Run>自动整理</Run>
+                            </TextBlock>
+                            <ToggleButton HorizontalAlignment="Right" Grid.Column="1" Grid.Row="3" Style="{StaticResource ToggleButtonSwitch}" Margin="0,0,5,0"
+                                          IsChecked="{Binding Source={x:Static tools:GlobalDataHelper.appConfig}, Path=AutoArrange}"/>
+                            <TextBlock HorizontalAlignment="Left" Grid.Column="0" Grid.Row="4" Style="{StaticResource TextBlockDefault}" Margin="5,0,5,0">
+                                <Hyperlink Command="{Binding openHistoryFileCommand}">历史记录</Hyperlink><Run>保存数量</Run>
+                            </TextBlock>
+                            <hc:NumericUpDown HorizontalAlignment="Right" Grid.Column="1" Grid.Row="4" Style="{StaticResource NumericUpDown.Small}" Height="24" Margin="0,0,5,0"
+                                              Width="60" Maximum="500" Minimum="0" FontSize="13"
+                                              Value="{Binding Source={x:Static tools:GlobalDataHelper.appConfig}, Path=HistorySaveCount}"/>
+                            <TextBlock Text="最小化动画等待时间" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="5" Style="{StaticResource TextBlockDefault}" Margin="5,0,5,0"/>
+                            <hc:NumericUpDown HorizontalAlignment="Right" Grid.Column="1" Grid.Row="5" Style="{StaticResource NumericUpDown.Small}" Height="24" Margin="0,0,5,0"
+                                              Width="60" Maximum="500" Minimum="0" FontSize="13"
+                                              Value="{Binding Source={x:Static tools:GlobalDataHelper.appConfig}, Path=MinimizeWaitDelay}"/>-->
+                        </Grid>
+                    </Border>
+                </hc:TransitioningContentControl>
+            </Popup>
+        </Grid>
+    </hc:Window.NonClientAreaContent>
+
     <hc:Watermark Mark="GSC🤣 " FontSize="15">
         <Grid Margin="10">
             <Grid.ColumnDefinitions>
@@ -18,13 +99,15 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <!--左侧联系人列表-->
-            <Border Grid.Column="0" Height="30" VerticalAlignment="Top" CornerRadius="5" Background="{DynamicResource SuccessBrush}">
-                <TextBlock Foreground="{DynamicResource RegionBrush}" Text="{x:Static local:GlobalData.myName}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Border Grid.Column="0" Height="30" VerticalAlignment="Top" CornerRadius="5" BorderThickness="1"
+                    Background="{DynamicResource SecondaryRegionBrush}" BorderBrush="{DynamicResource PrimaryBrush}"
+                    ToolTip="{Binding Source={x:Static local:GlobalData.appConfig}, Path=SelfID}">
+                <TextBlock Foreground="{DynamicResource PrimaryTextBrush}" Text="{Binding Source={x:Static local:GlobalData.appConfig}, Path=SelfNickname}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Border>
             <ListBox Grid.Column="0" Margin="0,40,0,0" ItemsSource="{x:Static local:GlobalData.userCustoms}" SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding CustomName}" ToolTip="{Binding UserID}"/>
+                        <TextBlock Text="{Binding CustomNickname}" ToolTip="{Binding UserID}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -34,7 +117,7 @@
                     Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource RegionBrush}"
                     hc:IconElement.Geometry="{StaticResource AddGeometry}" hc:BorderElement.CornerRadius="20"/>
             <!--竖排分割栏-->
-            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <GridSplitter Grid.Column="1" Width="2" Background="{DynamicResource BorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <!--右侧收发消息区域-->
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
@@ -53,7 +136,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 <!--横向分割栏-->
-                <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <GridSplitter Grid.Row="1" Height="2" Background="{DynamicResource BorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <!--底部消息编辑区域-->
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
@@ -61,7 +144,7 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="75"/>
                     </Grid.ColumnDefinitions>
-                    <RichTextBox Grid.Column="0"/>
+                    <TextBox Grid.Column="0" VerticalContentAlignment="Top" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"/>
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -77,4 +160,4 @@
             </Grid>
         </Grid>
     </hc:Watermark>
-</Window>
+</hc:Window>

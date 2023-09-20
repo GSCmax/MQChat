@@ -18,7 +18,7 @@ namespace MQChat
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : HandyControl.Controls.Window
     {
         public MainWindow()
         {
@@ -26,16 +26,16 @@ namespace MQChat
 
             for (int i = 1; i < 6; i++)
             {
-                GlobalData.userCustoms.Add(new UserCustom() { CustomName = "TestUser" + i, Type = UserType.user, UserID = Guid.NewGuid() });
+                GlobalData.userCustoms.Add(new UserCustom() { CustomNickname = "TestUser" + i, Type = UserType.user, UserID = Guid.NewGuid() });
             }
 
             for (int i = 1; i < 6; i++)
             {
-                GlobalData.userCustoms.Add(new UserCustom() { CustomName = "TestGroup" + i, Type = UserType.group, UserID = Guid.NewGuid() });
+                GlobalData.userCustoms.Add(new UserCustom() { CustomNickname = "TestGroup" + i, Type = UserType.group, UserID = Guid.NewGuid() });
             }
 
             Guid t = Guid.NewGuid();
-            GlobalData.userCustoms.Add(new UserCustom() { CustomName = "TestUser_Send", Type = UserType.user, UserID = t });
+            GlobalData.userCustoms.Add(new UserCustom() { CustomNickname = "TestUser_Send", Type = UserType.user, UserID = t });
             GlobalData.msgs.Add(new Msg() { MsgContent = "TestMsg", UserID = t });
         }
 
