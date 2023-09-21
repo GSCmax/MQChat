@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,12 +42,24 @@ namespace MQChat
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //GlobalData.showMsgs!.Clear();
-            //var temp = GlobalData.msgs.Where(m => m.UserID == ((sender as ListBox)!.SelectedItem as UserCustom)!.UserID);
-            //if (temp.Count() > 0)
-            //    foreach (var item in temp)
-            //        GlobalData.showMsgs.Add(item);
             msgListBox.ItemsSource = GlobalData.msgs.Where(m => m.UserID == ((sender as ListBox)!.SelectedItem as UserCustom)!.UserID);
+        }
+    }
+
+    public class OneBooleanToVisibilityConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            foreach (object obj in values)
+                if (obj is bool)
+                    if ((bool)obj)
+                        return Visibility.Visible;
+            return Visibility.Collapsed;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

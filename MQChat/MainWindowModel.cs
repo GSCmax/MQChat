@@ -8,16 +8,32 @@ using System.Threading.Tasks;
 
 namespace MQChat
 {
+    /// <summary>
+    /// 用户对象类型 个人or群
+    /// </summary>
     enum UserType
     {
         user,
         group,
     }
 
+    /// <summary>
+    /// 消息类型 接收or发送
+    /// </summary>
     enum MsgType
     {
         receive,
         send,
+    }
+
+    /// <summary>
+    /// 消息内容类型 普通聊天、好友申请、加群申请
+    /// </summary>
+    enum MsgContentType
+    {
+        chat,
+        userRequest,
+        groupRequest,
     }
 
     internal class MainWindowModel
@@ -27,10 +43,13 @@ namespace MQChat
     internal partial class Msg : ObservableObject
     {
         /// <summary>
-        /// 消息类型 接收or发送
+        /// 消息类型
         /// </summary>
         [ObservableProperty]
         private MsgType msgType;
+
+        [ObservableProperty]
+        private MsgContentType msgContentType;
 
         /// <summary>
         /// 消息类型为接收时，该属性为发送人ID；消息类型为发送时，该属性为接收人ID；
@@ -60,7 +79,7 @@ namespace MQChat
     internal partial class UserCustom : ObservableObject
     {
         /// <summary>
-        /// 用户对象类型 个人or群
+        /// 用户对象类型
         /// </summary>
         [ObservableProperty]
         private UserType type;
