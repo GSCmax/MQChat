@@ -113,6 +113,7 @@
                                 <Setter Property="ItemContainerStyle">
                                     <Setter.Value>
                                         <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBaseStyle}">
+                                            <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
                                             <Setter Property="hc:BorderElement.CornerRadius" Value="15"/>
                                             <Setter Property="Margin" Value="1"/>
                                             <Setter Property="ToolTip" Value="{Binding UserID}"/>
@@ -173,7 +174,7 @@
                         VerticalAlignment="Bottom" HorizontalAlignment="Right"
                         Style="{StaticResource ButtonIcon}" Name="addBTN" Command="{Binding showAddPopClickCommand}"
                         Background="{DynamicResource PrimaryBrush}" Foreground="{DynamicResource RegionBrush}"
-                        hc:IconElement.Geometry="{StaticResource AddGeometry}" hc:BorderElement.CornerRadius="15"/>
+                        hc:IconElement.Geometry="{StaticResource AddGeometry}" hc:BorderElement.CornerRadius="15,15,5,15"/>
                 <Popup PlacementTarget="{Binding ElementName=addBTN}" HorizontalOffset="25" VerticalOffset="-155"
                        IsOpen="{Binding ShowAddPop}" AllowsTransparency="True" StaysOpen="False">
                     <hc:TransitioningContentControl TransitionMode="Fade">
