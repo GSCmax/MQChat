@@ -22,7 +22,7 @@ namespace MQChat
 #else
         private static bool IsDebugMode = false;
 #endif
-        public static string Version = Assembly.GetEntryAssembly()?.GetName().Version?.ToString() + (Debugger.IsAttached ? " Debugger attached" : (IsDebugMode ? " Debug" : " Release"));
+        public static string Version = "Ver " + Assembly.GetEntryAssembly()?.GetName().Version?.ToString() + (Debugger.IsAttached ? " Debugger attached" : (IsDebugMode ? " Debug" : " Release"));
 
         /// <summary>
         /// 存储当前App实例的配置信息

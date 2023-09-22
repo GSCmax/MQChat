@@ -101,5 +101,8 @@ namespace MQChat
             CreateGroupMask = true;
         }
         #endregion
+
+        [ObservableProperty]
+        private Guid selectedUserID = Guid.Empty;
     }
 }

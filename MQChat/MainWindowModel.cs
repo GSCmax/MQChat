@@ -95,6 +95,12 @@ namespace MQChat
         /// </summary>
         [ObservableProperty]
         private string? customNickname;
+
+        /// <summary>
+        /// 新消息数量
+        /// </summary>
+        [ObservableProperty]
+        private short newMsgCount;
     }
 
     internal class AppConfig
